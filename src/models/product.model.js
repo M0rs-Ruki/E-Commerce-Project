@@ -7,4 +7,3 @@
 // bgColor
 // panelColor
 // textColor
-// 
