@@ -12,11 +12,11 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-    fullName: {typeo: String, required: true},
+    fullName: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     cart: {type: Array, default: []},
-    idAdmin: {type: Boolean, default: false},
+    isAdmin: {type: Boolean, default: false},
     orders: {type: Array, default: []},
     wishlist: {type: Array, default: []},
     contact: {type: Number, required: true},
