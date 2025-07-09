@@ -5,6 +5,7 @@ import path from 'path';
 import { log } from 'console';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
+import db from './src/db/connect.db.js';
 
 
 const app = express();
@@ -21,9 +22,14 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get('/', (req, res) =>  {
-    res.send('Hello World')
-})
+import ownersRouter from './src/routes/ownersRouter.js';
+import productsRouter from './src/routes/productsRouter.js';
+import usersRouter from './src/routes/userRouter.js';
+
+app.use('/owners', ownersRouter);
+app.use('/products', productsRouter);
+app.use('/users', usersRouter);
+
 
 
 app.listen(port, () => {
