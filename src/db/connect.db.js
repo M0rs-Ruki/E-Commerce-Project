@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 
 dotenv.config({path: "./.env"});
-const debgr = debug('Dev:DBConnect');
+const debgr = debug('development:DBConnect');
 
 mongoose
 .connect(process.env.MONGO_URI)
