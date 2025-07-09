@@ -16,7 +16,7 @@ const port = process.env.PORT;
 
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); 
 app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, 'public')));
@@ -26,7 +26,7 @@ import ownersRouter from './src/routes/ownersRouter.js';
 import productsRouter from './src/routes/productsRouter.js';
 import usersRouter from './src/routes/userRouter.js';
 
-app.use('/owners', ownersRouter);
+app.use('/api/owners', ownersRouter);
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
 

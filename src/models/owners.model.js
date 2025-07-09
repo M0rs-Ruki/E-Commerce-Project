@@ -16,9 +16,9 @@ const ownerSchema = new mongoose.Schema({
     password: {type: String, required: true},
     products: {type: Array, default: []},
     wishlist: {type: Array, default: []},
-    picture: {type: String, required: true},
-    GSTnumber: {type: String, required: true},
-    addres: {type: String, required: true}
+    picture: {type: String, default: ''},
+    GSTnumber: {type: String, default: ''},
+    addres: {type: String, default: ''},
 })
 
 const Owner = mongoose.model('Owner', ownerSchema);
