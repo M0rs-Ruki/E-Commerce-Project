@@ -4,6 +4,7 @@ import User from '../models/user.model.js';
 import generateToken from '../utils/generateTokenUtils.js';
 import { bcryptPassword, bcryptCompare } from '../utils/bcryptUtils.js';
 
+// User Registration
 const registerUser = async (req, res) => {
 try {
     let { email, password, fullName } = req.body;
@@ -33,13 +34,38 @@ try {
     res.status(500).send({message: 'Internal Server Error in user registration'});
 }};
 
-
+// User Login
 const loginUser = async (req, res) => {
     try {
+
+        const { email, password } = req.body;
+        // console.log(email, password);
         
+        if (!email || !password) {
+            return res.status(400).send({message: 'Email and password are required'});
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).send({message: 'User not found'});
+        }
+
+        const isPasswordValid = await bcryptCompare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).send({message: 'Invalid password'});
+        }
+
+        const token = generateToken(user);
+        res.cookie('token', token);
+        res.send({message: 'Login successful', user});
+
     } catch (error) {
-        
+        res.status(500).send({message: 'Internal Server Error in user login'});
     }
 }
 
-export { registerUser };
+
+
+
+// Exporting the functions
+export { registerUser, loginUser };
