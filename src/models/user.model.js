@@ -16,11 +16,10 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     cart: {type: Array, default: []},
-    isAdmin: {type: Boolean, default: false},
     orders: {type: Array, default: []},
     wishlist: {type: Array, default: []},
-    contact: {type: Number, required: true},
-    picture: {type: String, required: true}
+    contact: {type: Number, },
+    picture: {type: String, }
 })
 
 const User  = mongoose.model('User', userSchema);
