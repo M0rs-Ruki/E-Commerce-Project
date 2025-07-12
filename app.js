@@ -6,10 +6,13 @@ import { log } from 'console';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import db from './src/db/connect.db.js';
+import expressSession from 'express-session';
+import flash from 'connect-flash';
+
 
 
 const app = express();
-dotenv.config({ path: './.env' });
+dotenv.config({ path: '../.env' });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const port = process.env.PORT;
@@ -18,6 +21,12 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 app.use(cookieParser());
+app.use(expressSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET
+}))
+app.use(flash());
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, 'public')));
 

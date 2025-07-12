@@ -36,6 +36,7 @@ try {
 
 // User Login
 const loginUser = async (req, res) => {
+    req.flash('error', 'Invalid email or password');
     try {
 
         const { email, password } = req.body;
