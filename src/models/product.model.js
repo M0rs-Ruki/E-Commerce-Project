@@ -12,10 +12,10 @@
 import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema({
-    Image: { type: String, required: true },
+    Image: Buffer,
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    description: { type: String, required: true },
+    description: { type: String },
     discount: { type: Number, default: 0 },
     bgColor: { type: String, default: '#ffffff' },
     panelColor: { type: String, default: '#f0f0f0' },

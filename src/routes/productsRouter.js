@@ -1,13 +1,34 @@
 
 import express from 'express';
-import Product from '../models/products.model.js';
-import multer from 'multer';
+import upload from '../configs/multer.congig.js';
+import Product from '../models/product.model.js';
+
 
 const router = express.Router();
-const upload = multer();
 
-router.get('/', (req, res) => {
-    res.send('Products Home Page');
+
+router.post('/create', upload.single('image'), async (req, res) => {
+    try {
+        const { name, price, description, discount, bgColor, panelColor, textColor } = req.body;
+
+        const product = await Product.create({
+            Image: req.file.buffer,
+            name,
+            price,
+            description,
+            discount,
+            bgColor,
+            panelColor,
+            textColor
+        })
+        req.flash('success', 'Product created successfully');
+        res.redirect('/api/owners/adminPage')
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error creating product',
+            error: err.message
+        });
+    }
 });
 
 

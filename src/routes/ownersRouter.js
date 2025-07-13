@@ -34,12 +34,9 @@ if (process.env.NODE_ENV === 'development') {
 
 
 router.get('/adminPage', upload.none(), (req, res) => {
-    res.render('createproducts', {
-        success: req.flash('success'),
-        error: req.flash('error'),
-        title: 'Create Products',
-        user: req.user
-    });
+    const error = req.flash('error');
+    const success = req.flash('success');
+    res.render('createproducts', { error, success })
 });
 
 
