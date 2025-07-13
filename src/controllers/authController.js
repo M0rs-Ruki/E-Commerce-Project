@@ -58,15 +58,24 @@ const loginUser = async (req, res) => {
 
         const token = generateToken(user);
         res.cookie('token', token);
-        res.send({message: 'Login successful', user});
+        res.redirect('/shop');
 
     } catch (error) {
         res.status(500).send({message: 'Internal Server Error in user login'});
     }
 }
 
-
+// User Logout
+const logout = (req, res) => {
+    try {
+        res.clearCookie('token');
+        req.flash('success', 'Logged out successfully');
+        res.redirect('/');
+    } catch (error) {
+        res.status(500).send({message: 'Internal Server Error in user logout'});
+    }
+}
 
 
 // Exporting the functions
-export { registerUser, loginUser };
+export { registerUser, loginUser, logout };

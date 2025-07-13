@@ -1,9 +1,7 @@
 
 import express from 'express';
-import multer from 'multer';
-import isLoggedIn from '../middlewares/isLoggedIn.middleware';
+import isLoggedIn from '../middlewares/isLoggedIn.middleware.js';
 
-const upload = multer();
 const router = express.Router();
 
 router.get('/', (req, res) => {

@@ -7,7 +7,6 @@ import multer from 'multer';
 const upload = multer();
 const router = express.Router();
 
-
 if (process.env.NODE_ENV === 'development') {
     router.post('/create',upload.none(), async (req, res) => {
         const owners = await Owner.find();
@@ -34,9 +33,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 
-
-router.get('/', (req, res) => {
-    res.send('Owners Home Page');
+router.get('/adminPage', upload.none(), (req, res) => {
+    res.render('createproducts', {
+        success: req.flash('success'),
+        error: req.flash('error'),
+        title: 'Create Products',
+        user: req.user
+    });
 });
 
 
