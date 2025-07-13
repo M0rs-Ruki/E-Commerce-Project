@@ -8,7 +8,7 @@ dotenv.config({path: '../.env'});
 const isLoggedIn = async function (req, res, next) {
     if (!req.cookies.token) {
         req.flash('error', 'You must be logged in to access this page.');
-        return res.redirect('/login');
+        return res.redirect('/');
     }
 
     try {
@@ -20,7 +20,7 @@ const isLoggedIn = async function (req, res, next) {
         next();
     } catch (error) {
         req.flash('error', 'You must be logged in to access this page.');
-        return res.redirect('/login');
+        return res.redirect('/');
     }
 }
 
