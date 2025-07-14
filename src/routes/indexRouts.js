@@ -60,6 +60,19 @@ router.get('/cart', isLoggedIn, async (req, res) => {
     }
 })
 
+router.get('/wishlist', isLoggedIn, async (req, res) => {
+    try {
+        const user = await User.findOne({email: req.user.email});
+        const products = await Product.find({ _id: { $in: user.cart } });
+        res.render('wishlist', { products });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error fetching cart',
+            error: err.message
+        });
+    }
+})
+
 router.get('/logout', isLoggedIn, (req, res) => {
     res.render('shop')
 })
