@@ -73,9 +73,6 @@ router.get('/wishlist', isLoggedIn, async (req, res) => {
     }
 })
 
-router.get('/logout', isLoggedIn, (req, res) => {
-    res.render('shop')
-})
 router.get('/add-to-cart/:productId', isLoggedIn, async (req, res) => {
     const user = await User.findOne({email: req.user.email});
     user.cart.push(req.params.productId);
@@ -84,4 +81,7 @@ router.get('/add-to-cart/:productId', isLoggedIn, async (req, res) => {
     res.redirect('/shop');
 })
 
+router.get('/logout', isLoggedIn, (req, res) => {
+    res.render('shop')
+})
 export default router;

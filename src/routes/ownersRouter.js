@@ -40,6 +40,4 @@ router.get('/adminPage', upload.none(), (req, res) => {
 });
 
 
-
-
 export default router;

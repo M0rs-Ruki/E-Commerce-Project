@@ -4,7 +4,8 @@ import User from '../models/user.model.js';
 import generateToken from '../utils/generateTokenUtils.js';
 import { bcryptPassword, bcryptCompare } from '../utils/bcryptUtils.js';
 
-// User Registration
+
+
 const registerUser = async (req, res) => {
 try {
     let { email, password, fullName } = req.body;
@@ -34,7 +35,6 @@ try {
     res.status(500).send({message: 'Internal Server Error in user registration'});
 }};
 
-// User Login
 const loginUser = async (req, res) => {
     req.flash('error', 'Invalid email or password');
     try {
@@ -65,7 +65,6 @@ const loginUser = async (req, res) => {
     }
 }
 
-// User Logout
 const logout = (req, res) => {
     try {
         res.clearCookie('token');
