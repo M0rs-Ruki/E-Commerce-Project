@@ -1,46 +1,244 @@
 <%- include('./partials/header') %>
-    <div class="w-full h-screen flex items-start px-20 py-20 gap-10">
-        <div class="w-[30%] rounded-md overflow-hidden">
-            <div class="w-full h-80 bg-yellow-500"></div>
-            <div class="w-full flex justify-between px-5 py-4">
-                <h3 class="text-2xl">Clinge Bag</h3>
-                <div class="flex items-center gap-2">
-                    <i class="w-7 h-7 bg-white flex rounded-full items-center justify-center ri-add-line"></i>
-                    <div class="px-2 py-1 rounded-md bg-white text-black">01</div>
-                    <i class="w-7 h-7 bg-white flex rounded-full items-center justify-center ri-subtract-line"></i>
+<style>
+    .cart-container {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+    .product-card {
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    .quantity-btn {
+        transition: all 0.2s ease;
+    }
+    .quantity-btn:hover {
+        background-color: #f1f5f9;
+        transform: scale(1.1);
+    }
+    .summary-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+    .checkout-btn {
+        background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .checkout-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, #333333 0%, #000000 100%);
+    }
+    .empty-cart {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        border-radius: 16px;
+    }
+    .continue-btn {
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #000000 0%, #333333 100%);
+    }
+    .continue-btn:hover {
+        transform: scale(1.03);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="cart-container min-h-screen w-full py-16 px-4 md:px-10">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Left Column - Product List -->
+            <div class="w-full md:w-7/12">
+                <div class="flex items-center justify-between mb-8">
+                    <h1 class="text-3xl font-bold">Your Shopping Cart</h1>
+                    <span class="text-gray-600"><%= products.length %> item<%= products.length !== 1 ? 's' : '' %></span>
                 </div>
+
+                <% if(products.length === 0) { %>
+                    <!-- Empty cart state -->
+                    <div class="empty-cart flex flex-col items-center justify-center p-10 text-center">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-24 h-24 flex items-center justify-center mb-6">
+                            <i class="ri-shopping-cart-line text-4xl text-gray-500"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-3">Your cart is empty</h2>
+                        <p class="text-gray-600 mb-6 max-w-md">Looks like you haven't added anything to your cart yet. Start shopping to fill it with amazing products!</p>
+                        <a href="/shop" class="continue-btn text-white px-6 py-3 rounded-full font-medium">Continue Shopping</a>
+                    </div>
+                <% } else { %>
+                    <!-- Product list -->
+                    <div class="space-y-6">
+                        <% products.forEach(function(product, index) { %>
+                            <div class="product-card bg-white rounded-xl overflow-hidden flex flex-col md:flex-row">
+                                <div class="w-full md:w-2/5 h-48 md:h-auto flex items-center justify-center p-4" style="background-color: <%= product.bgColor || '#f8fafc' %>;">
+                                    <% if (product.Image && product.Image.data) { %>
+                                        <img 
+                                            class="h-40 object-contain"
+                                            src="data:Image/<%= product.Image.contentType %>;base64,<%= product.Image.data.toString('base64') %>" 
+                                            alt="<%= product.name %>"
+                                        >
+                                    <% } else { %>
+                                        <div class="bg-gray-200 border-2 border-dashed w-full h-full flex items-center justify-center text-gray-500 rounded-lg">
+                                            <i class="ri-image-line text-3xl"></i>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                
+                                <div class="w-full md:w-3/5 p-6 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex justify-between items-start">
+                                            <h3 class="text-xl font-semibold"><%= product.name %></h3>
+                                            <button class="text-gray-400 hover:text-red-500 transition">
+                                                <i class="ri-delete-bin-line text-xl"></i>
+                                            </button>
+                                        </div>
+                                        <p class="text-gray-600 mt-2 text-sm line-clamp-2"><%= product.description || 'Premium quality product with exceptional design and durability' %></p>
+                                    </div>
+                                    
+                                    <div class="mt-6">
+                                        <div class="flex justify-between items-center">
+                                            <div class="flex items-center">
+                                                <div class="quantity-control flex items-center border border-gray-300 rounded-full">
+                                                    <button class="quantity-btn w-8 h-8 flex items-center justify-center rounded-l-full">
+                                                        <i class="ri-subtract-line"></i>
+                                                    </button>
+                                                    <span class="px-4">1</span>
+                                                    <button class="quantity-btn w-8 h-8 flex items-center justify-center rounded-r-full">
+                                                        <i class="ri-add-line"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-lg font-semibold">₹ <%= product.price %></div>
+                                                <% if (product.discount && product.discount > 0) { %>
+                                                    <div class="text-sm text-gray-500 line-through">₹ <%= Math.round(product.price * 100/(100-product.discount)) %></div>
+                                                    <div class="text-sm text-green-600">Save <%= product.discount %>%</div>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
             </div>
-            <div class="flex items-center justify-between px-5 py-3">
-                <h4 class="text-lg">Net Total</h4>
-                <h2 class="text-lg">₹ 1200</h2>
+
+            <!-- Right Column - Order Summary -->
+            <div class="w-full md:w-5/12">
+                <div class="summary-card p-6 sticky top-24">
+                    <h2 class="text-2xl font-bold mb-6">Order Summary</h2>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span class="font-medium">₹ <%= products.reduce((sum, product) => sum + product.price, 0) %></span>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Discount</span>
+                            <span class="text-green-600 font-medium">-₹ <%= products.reduce((sum, product) => {
+                                if (product.discount) {
+                                    return sum + Math.round((product.price * product.discount)/(100-product.discount));
+                                }
+                                return sum;
+                            }, 0) %></span>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Shipping</span>
+                            <span class="font-medium">FREE</span>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Platform Fee</span>
+                            <span class="font-medium">₹ 20</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-4 mb-6">
+                        <div class="flex justify-between text-lg font-bold">
+                            <span>Total Amount</span>
+                            <span class="text-green-600">₹ <%= products.reduce((sum, product) => {
+                                let discountValue = 0;
+                                if (product.discount) {
+                                    discountValue = Math.round((product.price * product.discount)/(100-product.discount));
+                                }
+                                return sum + product.price - discountValue;
+                            }, 20) %></span>
+                        </div>
+                    </div>
+                    
+                    <form action="/checkout" method="POST">
+                        <button type="submit" class="checkout-btn w-full py-4 rounded-xl text-white font-bold text-lg flex items-center justify-center">
+                            Proceed to Checkout
+                            <i class="ri-arrow-right-line ml-2"></i>
+                        </button>
+                    </form>
+                    
+                    <div class="mt-6 text-center">
+                        <p class="text-gray-600 text-sm flex items-center justify-center">
+                            <i class="ri-shield-check-line text-green-500 mr-2"></i>
+                            Secure Payment • Easy Returns • 24/7 Support
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="w-[70%]">
-            <h3 class="text-xl">Price Breakdown</h3>
-            <div class="px-10 mt-5">
-                <div class="flex mt-2">
-                    <h4 class="w-1/3">Total MRP</h4>
-                    <h4>₹ 1920</h4>
-                </div>
-                <div class="flex mt-2">
-                    <h4 class="w-1/3">Discount on MRP</h4>
-                    <h4>₹ 0</h4>
-                </div>
-                <div class="flex mt-2">
-                    <h4 class="w-1/3">Platform Fee</h4>
-                    <h4>₹ 20</h4>
-                </div>
-                <div class="flex mt-2">
-                    <h4 class="w-1/3">Shipping Fee</h4>
-                    <h4>FREE</h4>
+        
+        <% if(products.length > 0) { %>
+            <div class="mt-12 flex flex-col md:flex-row justify-between items-center gap-4">
+                <a href="/shop" class="flex items-center text-gray-700 hover:text-black font-medium">
+                    <i class="ri-arrow-left-line mr-2"></i> Continue Shopping
+                </a>
+                <div class="flex items-center space-x-4">
+                    <button class="px-6 py-3 border border-gray-300 rounded-full font-medium hover:bg-gray-50">
+                        Save for Later
+                    </button>
+                    <button class="px-6 py-3 border border-gray-300 rounded-full font-medium hover:bg-gray-50">
+                        Update Cart
+                    </button>
                 </div>
             </div>
-            <div class="w-full h-[1px] bg-black mt-10"></div>
-            <div class="flex mt-5">
-                <h3 class="w-1/3 text-xl">Total Amount</h3>
-                <h3 class="font-semibold text-xl text-green-600">₹ 1940</h3>
-            </div>
-            <form action=""></form>
-        </div>
+        <% } %>
     </div>
-    <%- include('./partials/footer') %>
+</div>
+
+<script>
+    // Quantity control functionality
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const container = this.closest('.quantity-control');
+            const quantityElement = container.querySelector('span');
+            let quantity = parseInt(quantityElement.textContent);
+            
+            if (this.querySelector('.ri-add-line')) {
+                quantity++;
+            } else if (this.querySelector('.ri-subtract-line') && quantity > 1) {
+                quantity--;
+            }
+            
+            quantityElement.textContent = quantity;
+        });
+    });
+    
+    // Delete product from cart
+    document.querySelectorAll('.product-card button').forEach(button => {
+        if (button.querySelector('.ri-delete-bin-line')) {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                productCard.style.opacity = '0';
+                productCard.style.transform = 'translateX(100px)';
+                
+                setTimeout(() => {
+                    productCard.remove();
+                    // In a real app, you would make an API call to remove from cart
+                }, 300);
+            });
+        }
+    });
+</script>
+
+<%- include('./partials/footer') %>

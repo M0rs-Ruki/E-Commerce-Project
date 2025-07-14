@@ -31,9 +31,13 @@ router.get('/shop', isLoggedIn, async (req, res) => {
             return productObj;
         });
 
+        const success = req.flash('success');
+
         res.render('shop', { 
             products: processedProducts,
-            currentSort: sortOption 
+            currentSort: sortOption,
+            success,
+            loggedin: true 
         });
     } catch (err) {
         res.status(500).json({
@@ -43,12 +47,28 @@ router.get('/shop', isLoggedIn, async (req, res) => {
     }
 });
 
+router.get('/cart', isLoggedIn, async (req, res) => {
+    try {
+        const user = await User.findOne({email: req.user.email});
+        const products = await Product.find({ _id: { $in: user.cart } });
+        res.render('cart', { products });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error fetching cart',
+            error: err.message
+        });
+    }
+})
+
 router.get('/logout', isLoggedIn, (req, res) => {
     res.render('shop')
 })
-router.get('/add-to-cart/:id', isLoggedIn, async (req, res) => {
-    const user = await User.findOne({user: req.user.email});
-    
+router.get('/add-to-cart/:productId', isLoggedIn, async (req, res) => {
+    const user = await User.findOne({email: req.user.email});
+    user.cart.push(req.params.productId);
+    await user.save();
+    req.flash('success', 'Product added to cart');
+    res.redirect('/shop');
 })
 
 export default router;

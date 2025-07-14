@@ -1,78 +1,87 @@
 <%- include('./partials/header') %>
-<div class="w-full min-h-screen flex flex-col md:flex-row items-start px-4 md:px-20 py-10">
-    <!-- Sidebar -->
-    <div class="w-full md:w-[25%] flex flex-col items-start mb-10 md:mb-0">
-        <div class="flex items-center gap-2">
-            <h3 class="font-medium">Sort by</h3>
-            <form action="/shop" method="GET">
-                <select class="border-[1px] px-2 py-1 rounded" name="sortby" onchange="this.form.submit()">
-                    <option value="popular" <%= currentSort === 'popular' ? 'selected' : '' %>>Popular</option>
-                    <option value="newest" <%= currentSort === 'newest' ? 'selected' : '' %>>Newest</option>
-                </select>
-            </form>
-        </div>
-        
-        <div class="flex flex-col mt-8">
-            <h4 class="font-bold mb-2">Collections</h4>
-            <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop?collection=new">New Collection</a>
-            <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop">All Products</a>
-            <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop?discount=true">Discounted Products</a>
-        </div>
-        
-        <div class="mt-8">
-            <h4 class="font-bold mb-2">Filters</h4>
-            <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop?inStock=true">In Stock</a>
-            <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop?discount=true">On Sale</a>
-        </div>
-    </div>
 
-    <!-- Product Grid -->
-    <div class="w-full md:w-[75%]">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <% products.forEach(function(product){ %>
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-                    <!-- Product Image -->
-                    <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgColor || '#f8fafc' %>]">
-                        <% if (product.Image) { %>
-                            <img 
-                                class="h-48 object-contain"
-                                src="data:image/jpeg;base64,<%= product.Image.toString('base64') %>" 
-                                alt="<%= product.name %>"
-                                loading="lazy"
-                            >
-                        <% } else { %>
-                            <div class="bg-gray-200 border-2 border-dashed w-full h-full flex items-center justify-center text-gray-500">
-                                No Image
-                            </div>
-                        <% } %>
-                    </div>
-                    
-                    <!-- Product Info -->
-                    <div class="flex justify-between bg-[<%= product.panelColor || '#f1f5f9' %>] items-center px-4 py-3 text-[<%= product.textColor || '#1e293b' %>]">
-                        <div>
-                            <h3 class="font-semibold truncate max-w-[140px]"><%= product.name %></h3>
-                            <div class="flex items-center gap-2">
-                                <h4 class="font-bold">₹<%= product.price %></h4>
-                                <% if (product.originalPrice) { %>
-                                    <span class="text-sm line-through text-gray-500">₹<%= product.originalPrice %></span>
+
+    <% if(success.length>0){ %>
+        <div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500">
+            <span class="inline-block mt-1 mb-1 text-white">
+                <%= success %>
+            </span>
+        </div>
+        <% } %>
+        <div class="w-full min-h-screen flex flex-col md:flex-row items-start px-4 md:px-20 py-10">
+            <!-- Sidebar -->
+            <div class="w-full md:w-[25%] flex flex-col items-start mb-10 md:mb-0">
+                <div class="flex items-center gap-2">
+                    <h3 class="font-medium">Sort by</h3>
+                    <form action="/shop" method="GET">
+                        <select class="border-[1px] px-2 py-1 rounded" name="sortby" onchange="this.form.submit()">
+                            <option value="popular" <%= currentSort === 'popular' ? 'selected' : '' %>>Popular</option>
+                            <option value="newest" <%= currentSort === 'newest' ? 'selected' : '' %>>Newest</option>
+                        </select>
+                    </form>
+                </div>
+                
+                <div class="flex flex-col mt-8">
+                    <h4 class="font-bold mb-2">Collections</h4>
+                    <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop?collection=new">New Collection</a>
+                    <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop">All Products</a>
+                    <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop?discount=true">Discounted Products</a>
+                </div>
+                
+                <div class="mt-8">
+                    <h4 class="font-bold mb-2">Filters</h4>
+                    <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop?inStock=true">In Stock</a>
+                    <a class="block w-fit mb-2 hover:text-blue-600 transition" href="/shop?discount=true">On Sale</a>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="w-full md:w-[75%]">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <% products.forEach(function(product){ %>
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+                            <!-- Product Image -->
+                            <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgColor || '#f8fafc' %>]">
+                                <% if (product.Image) { %>
+                                    <img 
+                                        class="h-48 object-contain"
+                                        src="data:image/jpeg;base64,<%= product.Image.data.toString('base64') %>" 
+                                        alt="<%= product.name %>"
+                                        loading="lazy"
+                                    >
+                                <% } else { %>
+                                    <div class="bg-gray-200 border-2 border-dashed w-full h-full flex items-center justify-center text-gray-500">
+                                        No Image
+                                    </div>
                                 <% } %>
                             </div>
+                            
+                            <!-- Product Info -->
+                            <div class="flex justify-between bg-[<%= product.panelColor || '#f1f5f9' %>] items-center px-4 py-3 text-[<%= product.textColor || '#1e293b' %>]">
+                                <div>
+                                    <h3 class="font-semibold truncate max-w-[140px]"><%= product.name %></h3>
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="font-bold">₹<%= product.price %></h4>
+                                        <% if (product.originalPrice) { %>
+                                            <span class="text-sm line-through text-gray-500">₹<%= product.originalPrice %></span>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white hover:bg-gray-100 transition" 
+                                href="/add-to-cart/<%= product._id %>">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
                         </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white hover:bg-gray-100 transition" 
-                           href="/add-to-cart/<%= product._id %>">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
+                    <% }); %>
                 </div>
-            <% }); %>
-        </div>
-        
-        <% if (products.length === 0) { %>
-            <div class="text-center py-10">
-                <h3 class="text-xl font-medium text-gray-500">No products found</h3>
-                <a href="/shop" class="text-blue-600 hover:underline mt-2 inline-block">Reset filters</a>
+                
+                <% if (products.length === 0) { %>
+                    <div class="text-center py-10">
+                        <h3 class="text-xl font-medium text-gray-500">No products found</h3>
+                        <a href="/shop" class="text-blue-600 hover:underline mt-2 inline-block">Reset filters</a>
+                    </div>
+                <% } %>
             </div>
-        <% } %>
-    </div>
-</div>
-<%- include('./partials/footer') %>
+        </div>
+        <%- include('./partials/footer') %>
