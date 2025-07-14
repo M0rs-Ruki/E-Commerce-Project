@@ -12,7 +12,10 @@
 import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema({
-    Image: Buffer,
+    Image: {
+        data: Buffer,
+        contentType: String
+    },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String },

@@ -12,7 +12,10 @@ router.post('/create', upload.single('image'), async (req, res) => {
         const { name, price, description, discount, bgColor, panelColor, textColor } = req.body;
 
         const product = await Product.create({
-            Image: req.file.buffer,
+            Image: {
+                data: req.file.buffer,
+                contentType: req.file.mimetype // Store content type
+            },
             name,
             price,
             description,
@@ -30,6 +33,5 @@ router.post('/create', upload.single('image'), async (req, res) => {
         });
     }
 });
-
 
 export default router;
