@@ -2,12 +2,13 @@
 import express from 'express';
 import isLoggedIn from '../middlewares/isLoggedIn.middleware.js';
 import Product from '../models/product.model.js';
+import User from '../models/user.model.js';
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
     const error = req.flash('error');
-    res.render('index', { error });
+    res.render('index', { error, loggedin: false });
 });
 
 router.get('/shop', isLoggedIn, async (req, res) => {
@@ -44,6 +45,10 @@ router.get('/shop', isLoggedIn, async (req, res) => {
 
 router.get('/logout', isLoggedIn, (req, res) => {
     res.render('shop')
+})
+router.get('/add-to-cart/:id', isLoggedIn, async (req, res) => {
+    const user = await User.findOne({user: req.user.email});
+    
 })
 
 export default router;

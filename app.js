@@ -36,10 +36,12 @@ import productsRouter from './src/routes/productsRouter.js';
 import usersRouter from './src/routes/userRouter.js';
 import indexRouter from './src/routes/indexRouts.js';
 
+
+app.use('/', indexRouter);
 app.use('/api/owners', ownersRouter);
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
-app.use('/', indexRouter);
+
 
 
 

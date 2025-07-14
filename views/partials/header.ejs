@@ -87,48 +87,51 @@
                 <div class="flex items-center">
                     <h1 class="logo-font text-2xl font-bold">Mors</h1>
                 </div>
-                
-                <!-- Desktop Navigation Links -->
-                <div class="hidden md:flex space-x-8">
-                    <a href="#" class="nav-link text-gray-700 font-medium hover:text-black">New Arrivals</a>
-                    <a href="#" class="nav-link text-gray-700 font-medium hover:text-black">Shop</a>
-                    <a href="#" class="nav-link text-gray-700 font-medium hover:text-black">Collections</a>
-                    <a href="#" class="nav-link text-gray-700 font-medium hover:text-black">About</a>
-                </div>
-                
-                <!-- Right Icons -->
-                <div class="flex items-center space-x-5">
-                    <!-- Search -->
-                    <div class="search-bar hidden md:flex items-center border-b border-gray-300 overflow-hidden">
-                        <i class="ri-search-line text-gray-500 mr-2"></i>
-                        <input 
-                            type="text" 
-                            placeholder="Search..." 
-                            class="py-1 w-full focus:outline-none text-sm"
-                        >
+                <% var loggedin = typeof loggedin !== 'undefined' ? loggedin : true; %>
+                <% if (loggedin) { %>
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden md:flex space-x-8">
+                        <a href="#" class="nav-link text-gray-700 font-medium hover:text-black">New Arrivals</a>
+                        <a href="#" class="nav-link text-gray-700 font-medium hover:text-black">Shop</a>
+                        <a href="#" class="nav-link text-gray-700 font-medium hover:text-black">Collections</a>
+                        <a href="#" class="nav-link text-gray-700 font-medium hover:text-black">About</a>
                     </div>
-                    
-                    <!-- User -->
-                    <a href="#" class="text-gray-700 hover:text-black relative">
-                        <i class="ri-user-line text-xl"></i>
-                    </a>
-                    
-                    <!-- Wishlist -->
-                    <a href="#" class="text-gray-700 hover:text-black relative">
-                        <i class="ri-heart-line text-xl"></i>
-                    </a>
-                    
-                    <!-- Cart -->
-                    <a href="#" class="text-gray-700 hover:text-black relative">
-                        <i class="ri-shopping-bag-line text-xl"></i>
-                        <span class="cart-count">3</span>
-                    </a>
-                    <!-- logout -->
-                    <a href="/logout" class="text-gray-700 hover:text-black relative">
-                        <i class="ri-logout-box-line text-xl"></i>
-                    </a>
-                </div>
+                    <!-- Right Icons -->
+                    <div class="flex items-center space-x-5">
+                        <!-- Search -->
+                        <div class="search-bar hidden md:flex items-center border-b border-gray-300 overflow-hidden">
+                            <i class="ri-search-line text-gray-500 mr-2"></i>
+                            <input 
+                                type="text" 
+                                placeholder="Search..." 
+                                class="py-1 w-full focus:outline-none text-sm"
+                            >
+                        </div>
+                        
+                        <!-- User -->
+                        <a href="#" class="text-gray-700 hover:text-black relative">
+                            <i class="ri-user-line text-xl"></i>
+                        </a>
+                        
+                        <!-- Wishlist -->
+                        <a href="#" class="text-gray-700 hover:text-black relative">
+                            <i class="ri-heart-line text-xl"></i>
+                        </a>
+                        
+                        <!-- Cart -->
+                        <a href="#" class="text-gray-700 hover:text-black relative">
+                            <i class="ri-shopping-bag-line text-xl"></i>
+                            <span class="cart-count">3</span>
+                        </a>
+                        <!-- logout -->
+                        <a href="/logout" class="text-gray-700 hover:text-black relative">
+                            <i class="ri-logout-box-line text-xl"></i>
+                        </a>
+                    </div>
+                <% } %>
+
             </div>
+
             
             <!-- Mobile Menu (Hidden by default) -->
             <div id="mobileMenu" class="mobile-menu md:hidden">
