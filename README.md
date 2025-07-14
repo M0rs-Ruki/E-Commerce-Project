@@ -23,12 +23,31 @@
   <li><strong>Cookie-parser</strong> – to handle user cookies</li>
 </ul>
 
-<h2>📁 Project Structure</h2>
+<h2>📁 Project File Structure</h2>
+
 <ul>
-  <li><code>/src/routes</code> – all route files (e.g. owners, products, auth)</li>
-  <li><code>/views</code> – EJS view templates</li>
-  <li><code>/models</code> – Mongoose schema models</li>
-  <li><code>/public</code> – static assets like CSS/JS/images</li>
+  <li>📁 <strong>E-Commerce-Project</strong>
+    <ul>
+      <li>📁 public</li>
+      <li>📁 src
+        <ul>
+          <li>📁 configs</li>
+          <li>📁 controllers</li>
+          <li>📁 db</li>
+          <li>📁 middlewares</li>
+          <li>📁 models</li>
+          <li>📁 routes</li>
+          <li>📁 utils</li>
+        </ul>
+      </li>
+      <li>📁 views</li>
+      <li>📄 .env</li>
+      <li>📄 .gitignore</li>
+      <li>📄 app.js</li>
+      <li>📄 package.json</li>
+      <li>📄 package-lock.json</li>
+    </ul>
+  </li>
 </ul>
 
 <h2>✅ Features</h2>
