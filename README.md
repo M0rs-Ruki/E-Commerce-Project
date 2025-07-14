@@ -6,7 +6,7 @@
 
 <h2>🚀 Live Demo</h2>
 <p>
-  👉 <a href="https://github.com/M0rs-Ruki/E-Commerce-Project" target="_blank">Watch Demo Video</a><br>
+  👉 <a href="https://youtu.be/9Gy-RGJuCXk"_blank">Watch Demo Video</a><br>
   <em>(Includes features overview and tech walkthrough)</em>
 </p>
 
